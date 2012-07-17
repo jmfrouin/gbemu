@@ -1,0 +1,60 @@
+/* Alloue un buffer de de width pixels de large * height pixels
+   de haut dans une XImage */
+
+{
+  /* Pour la shared memory */
+  XShmSegmentInfo Shminfo;
+  int CompletionType; 
+  unsigned char Shm_Hard_Buffer_Flag;
+
+  XImage *XIma=NULL;
+  long Shm_OK;
+
+  /* Allocation d'une XImahe en Shared memory si possible */
+  Shm_OK=XShmQueryExtension(display);
+  switch(Shm_OK) {
+  case 0: 
+    /* On a pas pas pu allouer de Shared memory. On alloue 
+       donc le Buffer a l'aide d'un malloc */
+    if (buffer=(char *) malloc(width * height *sizeof(char)) {
+      perror("malloc failed \n");
+      exit(0);
+    }
+
+    /* Allocation d'une XImage normale */
+    XIma=XCreateImage(display, visual ,
+                      8, ZPixmap , 0,(char *) buffer ,
+                      width, height,8,0);
+
+    /* Flag qui indique qu'on a pas alloue la Shared Memory */
+    Shm_Hard_Buffer_Flag = False;
+    break;
+ 
+  case 1: 
+    /* On a pu allouer la Shared memory. Le buffer va donc se 
+       trouver dans cette zone. On ne fait de malloc() */
+    XIma=XShmCreateImage(display,visual ,8,ZPixmap ,
+                         NULL,&Shminfo,width,height);
+ 
+    Shminfo.shmid = shmget(IPC_PRIVATE,width * height, 
+                           IPC_CREAT | 0777);
+    Shminfo.shmaddr = XIma->data = buffer = 
+                            shmat(Shminfo.shmid, NULL, 0);
+
+    if (buffer) {
+      fprintf(stderr,"erreur d'allocation en Shared memory\n");
+      exit(0);
+    }
+    
+
+    /* Shared memory alloue */
+    Shminfo.readOnly = False;
+    XShmAttach(display, &Shminfo);
+ 
+    Shm_Hard_Buffer_Flag = True;
+    CompletionType = XShmGetEventBase(display) + ShmCompletion; 
+    break;  
+  }  
+
+  return XIma;
+
