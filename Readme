@@ -1,1 +1,44 @@
 GameBoy emulator
+
+------------------------------------------------------------------------------
+ChangeLog
+------------------------------------------------------------------------------
+0.59: [22/07/2012]
+      Build system is now CMake.
+0.58: No hard coded palette anymore, time to port to 5800 :)
+0.57: gbemu support rom file from command line
+0.56: Real tetris splash displayed, need to implement palettes correctly.
+0.55: Tetris Splashscreen displayed correctly !!
+0.50: Something displayed !!!
+0.40: flyspray, sdl, leave *properly* by pressing a key (close FS#2, FS#7)
+      2 news compilation flags, WITH_X11 & WITH_SDL
+      Add ReleaseNotes.txt (this file)
+      Add flags.h, whhich contain definition of all flags.
+0.38: bugzilla3, svn (Leaving git)
+0.37: 16k opcodes work ... but no display yet !
+0.36: Emulator init screen correctly ... but nothing more :)
+0.35: First run of tetris.gb, nothing work yet :D
+0.30: 100% of standard & extended OP codes are implemented
+0.25: eSET_*_*, eRES_*_*, eBIT_*_*
+0.24: Refactoring. XCPU::Rotate
+0.23: 100% of standard OP codes are implemented.
+0.22: Most of standard OP codes are implemented.
+0.21: More OP codes.
+0.20: CPU ready to test and partially implemented
+0.17: XMemory::Write & XMemory::Read seem enough implemented
+0.16: DMA
+0.15: More I.O Ports
+0.14: I.O Port 7 : Ticks and timer on/off
+0.13: I/O Ports >=0x6
+0.12: +IMem::Read, +IMem::Write
+0.11: Refactoring
+0.10: GNU/Linux port works
+0.09: IO Ports embryon
+0.08: +XMemory::Read()
+0.07: We can leave emu properly : q
+0.06: Surface works
+0.05: Surface based on XImage (XLIB) for GNU-Linux (emulate LCD) in XVideoRam
+0.04: Save/load game (ie internal ram), timer embryon
+0.03: Rom & Rams loaded from cartridge XRom, XRam, XSwitchableRam & XVideoRam
+0.02: CPU opcodes & XCpu
+0.01: Initial release
